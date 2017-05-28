@@ -1,5 +1,5 @@
 /**
- * octree-helper v0.0.0 build May 28 2017
+ * octree-helper v0.0.1 build May 28 2017
  * https://github.com/vanruesc/octree-helper
  * Copyright 2017 Raoul van Rüschen, Zlib
  */
@@ -141,7 +141,7 @@
 
   										for (j = 0; j < 12; ++j) {
 
-  												edge = EDGES[j];
+  												edge = edges[j];
 
   												indices[d++] = c + edge[0];
   												indices[d++] = c + edge[1];
@@ -149,7 +149,7 @@
 
   										for (j = 0; j < 8; ++j, ++c) {
 
-  												corner = PATTERN[j];
+  												corner = corners[j];
 
   												positions[c * 3] = corner[0] === 0 ? min.x : max.x;
   												positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
@@ -222,9 +222,9 @@
   		return OctreeHelper;
   }(three.Object3D);
 
-  var PATTERN = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
+  var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
-  var EDGES = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
   return OctreeHelper;
 
