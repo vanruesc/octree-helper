@@ -21,7 +21,7 @@ The following example uses the [sparse-octree](https://github.com/vanruesc/spars
 ```javascript
 import { Scene } from "three";
 import { Octree } from "sparse-octree";
-import { OctreeHelper } from "octree-helper";
+import OctreeHelper from "octree-helper";
 
 const scene = new Scene();
 
@@ -34,7 +34,7 @@ scene.add(octreeHelper);
 // Rebuild the helper geometry.
 octreeHelper.update();
 
-// Destroy the helper geometry.
+// Destroy the geometry.
 octreeHelper.dispose();
 ```
 
