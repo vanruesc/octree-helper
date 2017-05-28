@@ -45,7 +45,6 @@
 	},
 
 	"dependencies": {
-		"sparse-octree": "2.x.x",
 		"three": "0.85.x"
 	},
 
@@ -62,6 +61,7 @@
 		"load-grunt-config": "0.19.x",
 		"rollup-plugin-babel": "2.7.x",
 		"rollup-plugin-node-resolve": "2.0.x",
+		"sparse-octree": "3.x.x",
 		"time-grunt": "1.4.x"
 	},
 
