@@ -88,7 +88,7 @@ export class OctreeHelper extends Object3D {
 
 				for(j = 0; j < 12; ++j) {
 
-					edge = EDGES[j];
+					edge = edges[j];
 
 					indices[d++] = c + edge[0];
 					indices[d++] = c + edge[1];
@@ -97,7 +97,7 @@ export class OctreeHelper extends Object3D {
 
 				for(j = 0; j < 8; ++j, ++c) {
 
-					corner = PATTERN[j];
+					corner = corners[j];
 
 					positions[c * 3] = (corner[0] === 0) ? min.x : max.x;
 					positions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;
@@ -184,7 +184,7 @@ export class OctreeHelper extends Object3D {
 }
 
 /**
- * A binary pattern that describes the standard octant layout:
+ * A binary pattern that describes the corners of an octant:
  *
  * <pre>
  *    3____7
@@ -193,12 +193,10 @@ export class OctreeHelper extends Object3D {
  *  0/___4/
  * </pre>
  *
- * This common layout is crucial for positional assumptions.
- *
  * @type {Uint8Array[]}
  */
 
-const PATTERN = [
+const corners = [
 
 	new Uint8Array([0, 0, 0]),
 	new Uint8Array([0, 0, 1]),
@@ -218,7 +216,7 @@ const PATTERN = [
  * @type {Uint8Array[]}
  */
 
-const EDGES = [
+const edges = [
 
 	// X-Axis.
 	new Uint8Array([0, 4]),
