@@ -24,7 +24,6 @@ import { Octree } from "sparse-octree";
 import OctreeHelper from "octree-helper";
 
 const scene = new Scene();
-
 const octree = new Octree();
 const octreeHelper = new OctreeHelper(octree);
 
