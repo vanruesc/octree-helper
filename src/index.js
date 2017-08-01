@@ -4,4 +4,4 @@
  * @module octree-helper
  */
 
-export { OctreeHelper as default } from "./octree-helper.js";
+export { OctreeHelper as default } from "./OctreeHelper.js";
