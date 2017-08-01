@@ -37,7 +37,7 @@ octreeHelper.update();
 octreeHelper.dispose();
 ```
 
-A full example can be found [here](https://vanruesc.github.io/sparse-octree/public/index.html).
+A full example can be found [here](https://vanruesc.github.io/sparse-octree/public/demo).
 
 
 ## Contributing
