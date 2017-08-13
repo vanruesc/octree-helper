@@ -1,5 +1,5 @@
 /**
- * octree-helper v0.2.0 build Aug 13 2017
+ * octree-helper v0.2.1 build Aug 14 2017
  * https://github.com/vanruesc/octree-helper
  * Copyright 2017 Raoul van Rüschen, Zlib
  */
@@ -117,13 +117,14 @@
   						var geometry = void 0;
 
   						var i = void 0,
+  						    j = void 0,
   						    c = void 0,
   						    d = void 0,
   						    n = void 0;
   						var corner = void 0,
   						    edge = void 0;
 
-  						for (length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
+  						for (i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
 
   								length += octantCount < maxOctants ? octantCount : maxOctants;
   								octantCount -= maxOctants;
@@ -132,27 +133,32 @@
   								indices = new Uint16Array(vertexCount * 3);
   								positions = new Float32Array(vertexCount * 3);
 
-  								for (c = 0, d = 0, result = octants.next(); !result.done; result = octants.next()) {
+  								for (c = 0, d = 0, result = octants.next(); !result.done && i < length;) {
 
   										octant = result.value;
   										min = octant.min;
   										max = octant.max;
 
-  										for (i = 0; i < 12; ++i) {
+  										for (j = 0; j < 12; ++j) {
 
-  												edge = edges[i];
+  												edge = edges[j];
 
   												indices[d++] = c + edge[0];
   												indices[d++] = c + edge[1];
   										}
 
-  										for (i = 0; i < 8; ++i, ++c) {
+  										for (j = 0; j < 8; ++j, ++c) {
 
-  												corner = corners[i];
+  												corner = corners[j];
 
   												positions[c * 3] = corner[0] === 0 ? min.x : max.x;
   												positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
   												positions[c * 3 + 2] = corner[2] === 0 ? min.z : max.z;
+  										}
+
+  										if (++i < length) {
+
+  												result = octants.next();
   										}
   								}
 
