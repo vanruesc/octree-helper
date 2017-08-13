@@ -16,7 +16,7 @@ npm install octree-helper
 
 ## Requirements
 
-This helper can visualise any octree that satisfies the following protocols:
+This helper can visualise any octree that conforms to the following protocols:
 
 ```javascript
 interface Octree {
@@ -30,8 +30,8 @@ interface Octree {
 ```javascript
 interface Octant {
 
-	min: {x: Number, y: Number, z: Number};
-	max: {x: Number, y: Number, z: Number};
+	min: { x: Number, y: Number, z: Number };
+	max: { x: Number, y: Number, z: Number };
 
 }
 ```
