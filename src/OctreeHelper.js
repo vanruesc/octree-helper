@@ -66,11 +66,11 @@ export class OctreeHelper extends Object3D {
 		let octant, min, max;
 		let geometry;
 
-		let i, c, d, n;
+		let i, j, c, d, n;
 		let corner, edge;
 
 		// Create geometry in multiple runs to limit the amount of vertices.
-		for(length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
+		for(i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
 
 			length += (octantCount < maxOctants) ? octantCount : maxOctants;
 			octantCount -= maxOctants;
@@ -80,16 +80,16 @@ export class OctreeHelper extends Object3D {
 			positions = new Float32Array(vertexCount * 3);
 
 			// Continue where the previous run left off.
-			for(c = 0, d = 0, result = octants.next(); !result.done; result = octants.next()) {
+			for(c = 0, d = 0, result = octants.next(); !result.done && i < length;) {
 
 				octant = result.value;
 				min = octant.min;
 				max = octant.max;
 
 				// Create line connections based on the current vertex count.
-				for(i = 0; i < 12; ++i) {
+				for(j = 0; j < 12; ++j) {
 
-					edge = edges[i];
+					edge = edges[j];
 
 					indices[d++] = c + edge[0];
 					indices[d++] = c + edge[1];
@@ -97,13 +97,19 @@ export class OctreeHelper extends Object3D {
 				}
 
 				// Create the vertices.
-				for(i = 0; i < 8; ++i, ++c) {
+				for(j = 0; j < 8; ++j, ++c) {
 
-					corner = corners[i];
+					corner = corners[j];
 
 					positions[c * 3] = (corner[0] === 0) ? min.x : max.x;
 					positions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;
 					positions[c * 3 + 2] = (corner[2] === 0) ? min.z : max.z;
+
+				}
+
+				if(++i < length) {
+
+					result = octants.next();
 
 				}
 
