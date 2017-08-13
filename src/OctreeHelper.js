@@ -8,8 +8,6 @@ import {
 
 /**
  * An octree helper.
- *
- * @param {Octree} [octree=null] - The octree to visualise.
  */
 
 export class OctreeHelper extends Object3D {
@@ -17,7 +15,7 @@ export class OctreeHelper extends Object3D {
 	/**
 	 * Constructs a new octree helper.
 	 *
-	 * @param {Octree} [octree=null] - The octree to visualise.
+	 * @param {Octree} [octree=null] - An octree.
 	 */
 
 	constructor(octree = null) {
@@ -34,6 +32,7 @@ export class OctreeHelper extends Object3D {
 		 * The octree.
 		 *
 		 * @type {Octree}
+		 * @default null
 		 */
 
 		this.octree = octree;
@@ -46,10 +45,11 @@ export class OctreeHelper extends Object3D {
 	 * Creates octant geometry.
 	 *
 	 * @private
-	 * @param {Octant[]} octants - The octants.
+	 * @param {Iterator} octants - An octant iterator.
+	 * @param {Number} octantCount - The size of the given sequence.
 	 */
 
-	createLineSegments(octants) {
+	createLineSegments(octants, octantCount) {
 
 		const maxOctants = (Math.pow(2, 16) / 8) - 1;
 		const group = new Object3D();
@@ -58,7 +58,7 @@ export class OctreeHelper extends Object3D {
 			color: 0xffffff * Math.random()
 		});
 
-		let octantCount = octants.length;
+		let result;
 		let vertexCount;
 		let length;
 
@@ -66,11 +66,11 @@ export class OctreeHelper extends Object3D {
 		let octant, min, max;
 		let geometry;
 
-		let i, j, c, d, n;
+		let i, c, d, n;
 		let corner, edge;
 
 		// Create geometry in multiple runs to limit the amount of vertices.
-		for(i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
+		for(length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
 
 			length += (octantCount < maxOctants) ? octantCount : maxOctants;
 			octantCount -= maxOctants;
@@ -79,25 +79,27 @@ export class OctreeHelper extends Object3D {
 			indices = new Uint16Array(vertexCount * 3);
 			positions = new Float32Array(vertexCount * 3);
 
-			// Don't reset i, continue where a previous run left off.
-			for(c = 0, d = 0; i < length; ++i) {
+			// Continue where the previous run left off.
+			for(c = 0, d = 0, result = octants.next(); !result.done; result = octants.next()) {
 
-				octant = octants[i];
+				octant = result.value;
 				min = octant.min;
 				max = octant.max;
 
-				for(j = 0; j < 12; ++j) {
+				// Create line connections based on the current vertex count.
+				for(i = 0; i < 12; ++i) {
 
-					edge = edges[j];
+					edge = edges[i];
 
 					indices[d++] = c + edge[0];
 					indices[d++] = c + edge[1];
 
 				}
 
-				for(j = 0; j < 8; ++j, ++c) {
+				// Create the vertices.
+				for(i = 0; i < 8; ++i, ++c) {
 
-					corner = corners[j];
+					corner = corners[i];
 
 					positions[c * 3] = (corner[0] === 0) ? min.x : max.x;
 					positions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;
@@ -128,13 +130,19 @@ export class OctreeHelper extends Object3D {
 		const depth = (this.octree !== null) ? this.octree.getDepth() : -1;
 
 		let level = 0;
+		let result;
 
 		// Remove existing geometry.
 		this.dispose();
 
 		while(level <= depth) {
 
-			this.createLineSegments(this.octree.findOctantsByLevel(level));
+			result = this.octree.findOctantsByLevel(level);
+
+			this.createLineSegments(
+				result[Symbol.iterator](),
+				(typeof result.size === "number") ? result.size : result.length
+			);
 
 			++level;
 
@@ -186,12 +194,12 @@ export class OctreeHelper extends Object3D {
 /**
  * A binary pattern that describes the corners of an octant:
  *
- * <pre>
+ * ```text
  *    3____7
  *  2/___6/|
  *  | 1__|_5
  *  0/___4/
- * </pre>
+ * ```
  *
  * @type {Uint8Array[]}
  */
