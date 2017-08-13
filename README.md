@@ -14,6 +14,29 @@ npm install octree-helper
 ``` 
 
 
+## Requirements
+
+This helper can visualise any octree that satisfies the following protocols:
+
+```javascript
+interface Octree {
+
+	getDepth(): Number;
+	findOctantsByLevel(level: Number): Iterable;
+
+}
+```
+
+```javascript
+interface Octant {
+
+	min: {x: Number, y: Number, z: Number};
+	max: {x: Number, y: Number, z: Number};
+
+}
+```
+
+
 ## Usage
 
 The following example uses the [sparse-octree](https://github.com/vanruesc/sparse-octree) module.
@@ -30,10 +53,13 @@ const octreeHelper = new OctreeHelper(octree);
 // Render the helper.
 scene.add(octreeHelper);
 
-// Rebuild the helper geometry.
+// Set a different octree.
+octreeHelper.octree = otherOctree;
+
+// Destroy the helper geometry and rebuild.
 octreeHelper.update();
 
-// Destroy the geometry.
+// Destroy the helper geometry.
 octreeHelper.dispose();
 ```
 
