@@ -4,10 +4,12 @@ const OctreeHelper = require("../build/octree-helper");
 const THREE = require("three");
 const OCTREE = require("sparse-octree");
 
-const box = new THREE.Box3(
+const octree = new OCTREE.Octree(
 	new THREE.Vector3(-1, -1, -1),
 	new THREE.Vector3(1, 1, 1)
 );
+
+octree.root.split();
 
 module.exports = {
 
@@ -24,10 +26,6 @@ module.exports = {
 
 		"creates geometry for each tree level": function(test) {
 
-			const octree = new OCTREE.Octree(box.min, box.max);
-
-			octree.root.split();
-
 			const helper = new OctreeHelper(octree);
 
 			test.equal(helper.children.length, 2, "should have a child for each level");
@@ -37,12 +35,11 @@ module.exports = {
 
 		"can be destroyed": function(test) {
 
-			const octree = new OCTREE.Octree(box.min, box.max);
 			const helper = new OctreeHelper(octree);
 
 			helper.dispose();
 
-			test.ok(helper, "octree helper");
+			test.equal(helper.children.length, 0, "should delete all children");
 			test.done();
 
 		}
