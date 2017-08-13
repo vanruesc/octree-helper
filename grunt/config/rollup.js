@@ -6,28 +6,23 @@ module.exports = function(grunt) {
 	return {
 
 		options: {
-			globals: {
-				"three": "THREE"
-			},
-			external: [
-				"three"
-			],
 			plugins() {
-				return grunt.option("production") ? [
-					resolve({
-						jsnext: true
-					}),
-					babel()
-				] : [
+				return [
 					resolve({
 						jsnext: true
 					})
-				];
+				].concat(grunt.option("production") ? [babel()] : []);
 			}
 		},
 
 		lib: {
 			options: {
+				globals: {
+					"three": "THREE"
+				},
+				external: [
+					"three"
+				],
 				format: "umd",
 				moduleName: "<%= package.name.replace(/-/g, \"\").toUpperCase() %>",
 				banner: "<%= banner %>"
