@@ -45,7 +45,7 @@
 	},
 
 	"dependencies": {
-		"three": "0.86.x"
+		"three": "0.87.x"
 	},
 
 	"devDependencies": {
