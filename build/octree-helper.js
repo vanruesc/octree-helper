@@ -1,5 +1,5 @@
 /**
- * octree-helper v0.3.1 build Aug 18 2017
+ * octree-helper v0.4.0 build Nov 02 2017
  * https://github.com/vanruesc/octree-helper
  * Copyright 2017 Raoul van Rüschen, Zlib
  */
@@ -9,6 +9,123 @@
   typeof define === 'function' && define.amd ? define(['three'], factory) :
   (global.OCTREEHELPER = factory(global.THREE));
 }(this, (function (three) { 'use strict';
+
+  var asyncGenerator = function () {
+    function AwaitValue(value) {
+      this.value = value;
+    }
+
+    function AsyncGenerator(gen) {
+      var front, back;
+
+      function send(key, arg) {
+        return new Promise(function (resolve, reject) {
+          var request = {
+            key: key,
+            arg: arg,
+            resolve: resolve,
+            reject: reject,
+            next: null
+          };
+
+          if (back) {
+            back = back.next = request;
+          } else {
+            front = back = request;
+            resume(key, arg);
+          }
+        });
+      }
+
+      function resume(key, arg) {
+        try {
+          var result = gen[key](arg);
+          var value = result.value;
+
+          if (value instanceof AwaitValue) {
+            Promise.resolve(value.value).then(function (arg) {
+              resume("next", arg);
+            }, function (arg) {
+              resume("throw", arg);
+            });
+          } else {
+            settle(result.done ? "return" : "normal", result.value);
+          }
+        } catch (err) {
+          settle("throw", err);
+        }
+      }
+
+      function settle(type, value) {
+        switch (type) {
+          case "return":
+            front.resolve({
+              value: value,
+              done: true
+            });
+            break;
+
+          case "throw":
+            front.reject(value);
+            break;
+
+          default:
+            front.resolve({
+              value: value,
+              done: false
+            });
+            break;
+        }
+
+        front = front.next;
+
+        if (front) {
+          resume(front.key, front.arg);
+        } else {
+          back = null;
+        }
+      }
+
+      this._invoke = send;
+
+      if (typeof gen.return !== "function") {
+        this.return = undefined;
+      }
+    }
+
+    if (typeof Symbol === "function" && Symbol.asyncIterator) {
+      AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+        return this;
+      };
+    }
+
+    AsyncGenerator.prototype.next = function (arg) {
+      return this._invoke("next", arg);
+    };
+
+    AsyncGenerator.prototype.throw = function (arg) {
+      return this._invoke("throw", arg);
+    };
+
+    AsyncGenerator.prototype.return = function (arg) {
+      return this._invoke("return", arg);
+    };
+
+    return {
+      wrap: function (fn) {
+        return function () {
+          return new AsyncGenerator(fn.apply(this, arguments));
+        };
+      },
+      await: function (value) {
+        return new AwaitValue(value);
+      }
+    };
+  }();
+
+
+
+
 
   var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -76,8 +193,8 @@
     return call && (typeof call === "object" || typeof call === "function") ? call : self;
   };
 
-  var OctreeHelper = function (_Object3D) {
-  		inherits(OctreeHelper, _Object3D);
+  var OctreeHelper = function (_Group) {
+  		inherits(OctreeHelper, _Group);
 
   		function OctreeHelper() {
   				var octree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -99,7 +216,7 @@
   				value: function createLineSegments(octants, octantCount) {
 
   						var maxOctants = Math.pow(2, 16) / 8 - 1;
-  						var group = new three.Object3D();
+  						var group = new three.Group();
 
   						var material = new three.LineBasicMaterial({
   								color: 0xffffff * Math.random()
@@ -228,7 +345,7 @@
   				}
   		}]);
   		return OctreeHelper;
-  }(three.Object3D);
+  }(three.Group);
 
   var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
