@@ -1,16 +1,16 @@
 import {
 	BufferAttribute,
 	BufferGeometry,
+	Group,
 	LineSegments,
-	LineBasicMaterial,
-	Object3D
+	LineBasicMaterial
 } from "three";
 
 /**
  * An octree helper.
  */
 
-export class OctreeHelper extends Object3D {
+export class OctreeHelper extends Group {
 
 	/**
 	 * Constructs a new octree helper.
@@ -52,7 +52,7 @@ export class OctreeHelper extends Object3D {
 	createLineSegments(octants, octantCount) {
 
 		const maxOctants = (Math.pow(2, 16) / 8) - 1;
-		const group = new Object3D();
+		const group = new Group();
 
 		const material = new LineBasicMaterial({
 			color: 0xffffff * Math.random()
