@@ -2,7 +2,7 @@
 
 [![Build status](https://travis-ci.org/vanruesc/octree-helper.svg?branch=master)](https://travis-ci.org/vanruesc/octree-helper) 
 [![npm version](https://badge.fury.io/js/octree-helper.svg)](http://badge.fury.io/js/octree-helper) 
-[![Dependencies](https://david-dm.org/vanruesc/octree-helper.svg?branch=master)](https://david-dm.org/vanruesc/octree-helper)
+[![Peer dependencies](https://img.shields.io/david/peer/vanruesc/octree-helper.svg)](https://david-dm.org/vanruesc/octree-helper)
 
 An octree visualisation tool for [three.js](https://threejs.org/).
 
