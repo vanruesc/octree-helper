@@ -48,8 +48,8 @@
 		"extends": "delta"
 	},
 
-	"dependencies": {
-		"three": "0.89.x"
+	"peerDependencies": {
+		"three": ">= 0.89.0 < 0.91.0"
 	},
 
 	"devDependencies": {
