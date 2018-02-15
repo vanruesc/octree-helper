@@ -32,7 +32,6 @@ export class OctreeHelper extends Group {
 		 * The octree.
 		 *
 		 * @type {Octree}
-		 * @default null
 		 */
 
 		this.octree = octree;
