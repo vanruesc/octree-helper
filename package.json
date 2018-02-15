@@ -69,6 +69,7 @@
 		"rollup-plugin-babel": "3.x.x",
 		"rollup-plugin-node-resolve": "3.x.x",
 		"sparse-octree": "4.x.x",
+		"three": "0.90.x",
 		"time-grunt": "1.x.x"
 	}
 }
