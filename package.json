@@ -5,6 +5,7 @@
 	"homepage": "https://github.com/vanruesc/octree-helper",
 	"main": "build/octree-helper.js",
 	"module": "src/index.js",
+	"sideEffects": false,
 	"license": "Zlib",
 
 	"keywords": [
@@ -14,7 +15,7 @@
 		"3d",
 		"geometry",
 		"mesh",
-		"visualise"
+		"visualize"
 	],
 
 	"author": {
