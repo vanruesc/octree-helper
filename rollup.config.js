@@ -18,9 +18,11 @@ const lib = {
 		file: "build/" + pkg.name + ".js",
 		format: "umd",
 		name: pkg.name.replace(/-/g, "").toUpperCase(),
-		banner: banner
+		banner: banner,
+		globals: { three: "THREE" }
 	},
 
+	external: ["three"],
 	plugins: [resolve()].concat(process.env.NODE_ENV === "production" ? [babel()] : [])
 
 };
