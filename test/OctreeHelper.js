@@ -1,49 +1,37 @@
-"use strict";
+import test from "ava";
+import { Vector3 } from "math-ds";
+import { Octree } from "sparse-octree";
+import OctreeHelper from "../build/octree-helper.js";
 
-const OctreeHelper = require("../build/octree-helper");
-const THREE = require("three");
-const OCTREE = require("sparse-octree");
-
-const octree = new OCTREE.Octree(
-	new THREE.Vector3(-1, -1, -1),
-	new THREE.Vector3(1, 1, 1)
+const octree = new Octree(
+	new Vector3(-1, -1, -1),
+	new Vector3(1, 1, 1)
 );
 
 octree.root.split();
 
-module.exports = {
+test("can be instantiated", t => {
 
-	"OctreeHelper": {
+	const object = new OctreeHelper();
 
-		"can be instantiated": function(test) {
+	t.truthy(object);
 
-			const helper = new OctreeHelper();
+});
 
-			test.ok(helper);
-			test.done();
+test("creates geometry for each tree level", t => {
 
-		},
+	const helper = new OctreeHelper(octree);
 
-		"creates geometry for each tree level": function(test) {
+	t.is(helper.children.length, 2, "should have a child for each level");
 
-			const helper = new OctreeHelper(octree);
+});
 
-			test.equal(helper.children.length, 2, "should have a child for each level");
-			test.done();
+test("an be destroyed", t => {
 
-		},
+	const helper = new OctreeHelper(octree);
 
-		"can be destroyed": function(test) {
+	helper.dispose();
 
-			const helper = new OctreeHelper(octree);
+	t.is(helper.children.length, 0, "should delete all children");
 
-			helper.dispose();
-
-			test.equal(helper.children.length, 0, "should delete all children");
-			test.done();
-
-		}
-
-	}
-
-};
+});

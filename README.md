@@ -2,15 +2,19 @@
 
 [![Build status](https://travis-ci.org/vanruesc/octree-helper.svg?branch=master)](https://travis-ci.org/vanruesc/octree-helper) 
 [![npm version](https://badge.fury.io/js/octree-helper.svg)](http://badge.fury.io/js/octree-helper) 
-[![Peer dependencies](https://img.shields.io/david/peer/vanruesc/octree-helper.svg)](https://david-dm.org/vanruesc/octree-helper)
+[![Peer dependencies](https://img.shields.io/david/peer/vanruesc/octree-helper.svg)](https://david-dm.org/vanruesc/octree-helper?type=peer)
 
-An octree visualisation tool for [three.js](https://threejs.org/).
+An octree visualization tool for [three.js](https://threejs.org/).
+
+*[API Reference](https://vanruesc.github.io/octree-helper)*
 
 
 ## Installation
 
+This library requires the peer dependency [three](https://github.com/mrdoob/three.js/).
+
 ```sh
-npm install octree-helper
+npm install three octree-helper
 ``` 
 
 
