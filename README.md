@@ -20,7 +20,7 @@ npm install three octree-helper
 
 ## Requirements
 
-This helper can visualise any octree that conforms to the following protocols:
+This helper can visualize any octree that conforms to the following protocols:
 
 ```javascript
 interface Octree {
