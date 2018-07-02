@@ -1,9 +1,8 @@
 /**
- * octree-helper v0.8.0 build May 31 2018
+ * octree-helper v0.9.0 build Mon Jul 02 2018
  * https://github.com/vanruesc/octree-helper
  * Copyright 2018 Raoul van Rüschen, Zlib
  */
-
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('three')) :
   typeof define === 'function' && define.amd ? define(['three'], factory) :
@@ -34,14 +33,6 @@
     };
   }();
 
-
-
-
-
-
-
-
-
   var inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -57,16 +48,6 @@
     });
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   };
-
-
-
-
-
-
-
-
-
-
 
   var possibleConstructorReturn = function (self, call) {
     if (!self) {
