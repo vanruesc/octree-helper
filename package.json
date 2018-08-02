@@ -74,6 +74,7 @@
 		"esdoc-standard-plugin": "1.x.x",
 		"eslint": "5.x.x",
 		"eslint-config-delta": "0.x.x",
+		"iterator-result": "0.x.x",
 		"math-ds": "1.x.x",
 		"rollup": "0.x.x",
 		"rollup-plugin-babel": "3.x.x",
