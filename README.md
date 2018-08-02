@@ -6,7 +6,7 @@
 
 An octree visualization tool for [three.js](https://threejs.org/).
 
-*[API Reference](https://vanruesc.github.io/octree-helper)*
+*[API Reference](https://vanruesc.github.io/octree-helper/docs)*
 
 
 ## Installation
