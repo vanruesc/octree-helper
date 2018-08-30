@@ -61,7 +61,7 @@
 	},
 
 	"peerDependencies": {
-		"three": ">= 0.89.0 <= 0.95.0"
+		"three": ">= 0.89.0 <= 0.96.0"
 	},
 
 	"devDependencies": {
@@ -80,6 +80,6 @@
 		"rollup-plugin-babel-minify": "6.x.x",
 		"rollup-plugin-node-resolve": "3.x.x",
 		"sparse-octree": "5.x.x",
-		"three": "0.95.x"
+		"three": "0.96.x"
 	}
 }
