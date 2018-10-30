@@ -37,7 +37,6 @@ export default [lib].concat((process.env.NODE_ENV === "production") ? [
 
 		plugins: [resolve(), babel(), minify({
 			bannerNewLine: true,
-			sourceMap: false,
 			comments: false
 		})]
 
