@@ -61,13 +61,13 @@
 	},
 
 	"peerDependencies": {
-		"three": ">= 0.89.0 < 0.100.0"
+		"three": ">= 0.89.0 < 0.101.0"
 	},
 
 	"devDependencies": {
 		"@babel/core": "7.x.x",
 		"@babel/preset-env": "7.x.x",
-		"ava": "0.x.x",
+		"ava": "1.x.x",
 		"cross-env": "5.x.x",
 		"esdoc": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
@@ -75,11 +75,11 @@
 		"eslint-config-delta": "0.x.x",
 		"iterator-result": "0.x.x",
 		"math-ds": "1.x.x",
-		"rollup": "0.x.x",
+		"rollup": "1.x.x",
 		"rollup-plugin-babel": "4.x.x",
 		"rollup-plugin-babel-minify": "6.x.x",
-		"rollup-plugin-node-resolve": "3.x.x",
+		"rollup-plugin-node-resolve": "4.x.x",
 		"sparse-octree": "5.x.x",
-		"three": "0.99.x"
+		"three": "0.100.x"
 	}
 }
