@@ -1,6 +1,6 @@
 {
 	"name": "octree-helper",
-	"version": "0.20.0",
+	"version": "0.21.0",
 	"description": "An octree visualization tool for three.js.",
 	"homepage": "https://github.com/vanruesc/octree-helper",
 	"main": "build/octree-helper.js",
@@ -61,7 +61,7 @@
 	},
 
 	"peerDependencies": {
-		"three": ">= 0.89.0 < 0.106.0"
+		"three": ">= 0.89.0 < 0.107.0"
 	},
 
 	"devDependencies": {
@@ -71,7 +71,7 @@
 		"cross-env": "5.x.x",
 		"esdoc": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
-		"eslint": "5.x.x",
+		"eslint": "6.x.x",
 		"eslint-config-delta": "0.x.x",
 		"iterator-result": "0.x.x",
 		"math-ds": "1.x.x",
@@ -80,6 +80,6 @@
 		"rollup-plugin-babel-minify": "8.x.x",
 		"rollup-plugin-node-resolve": "5.x.x",
 		"sparse-octree": "5.x.x",
-		"three": "0.105.x"
+		"three": "0.106.x"
 	}
 }
