@@ -28,6 +28,7 @@ export class OctreeHelper extends Group {
 		 * The name of this object.
 		 *
 		 * @type {String}
+		 * @protected
 		 */
 
 		this.name = "OctreeHelper";
