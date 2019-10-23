@@ -60,6 +60,10 @@
 		"extends": "delta"
 	},
 
+	"dependencies": {
+		"sparse-octree": "6.x.x"
+	},
+
 	"peerDependencies": {
 		"three": ">= 0.89.0 < 0.110.0"
 	},
@@ -79,7 +83,6 @@
 		"rollup-plugin-babel": "4.x.x",
 		"rollup-plugin-babel-minify": "9.x.x",
 		"rollup-plugin-node-resolve": "5.x.x",
-		"sparse-octree": "5.x.x",
 		"three": "0.109.x"
 	}
 }
