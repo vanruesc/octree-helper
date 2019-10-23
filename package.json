@@ -44,7 +44,7 @@
 		"build": "rollup -c",
 		"build:production": "cross-env NODE_ENV=production rollup -c",
 		"watch": "rollup -c --watch",
-		"doc": "rimraf public/docs && esdoc",
+		"doc": "rimraf docs && esdoc",
 		"pretest": "npm run lint && npm run build:production",
 		"test": "npm run ava",
 		"prepack": "npm test"
@@ -73,6 +73,7 @@
 		"ava": "2.x.x",
 		"cross-env": "6.x.x",
 		"esdoc": "1.x.x",
+		"esdoc-importpath-plugin": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
 		"eslint": "6.x.x",
 		"eslint-config-delta": "1.x.x",
