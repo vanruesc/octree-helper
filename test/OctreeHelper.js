@@ -1,12 +1,12 @@
 import test from "ava";
 import { Vector3 } from "math-ds";
-import { Octree } from "sparse-octree";
-import OctreeHelper from "../build/octree-helper.js";
+import { Octant, Octree } from "sparse-octree";
+import { OctreeHelper } from "../build/octree-helper.js";
 
-const octree = new Octree(
+const octree = new Octree(new Octant(
 	new Vector3(-1, -1, -1),
 	new Vector3(1, 1, 1)
-);
+));
 
 octree.root.split();
 
