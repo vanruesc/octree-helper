@@ -1,3 +1,5 @@
+import { edges, layout } from "sparse-octree";
+
 import {
 	BufferAttribute,
 	BufferGeometry,
@@ -5,8 +7,6 @@ import {
 	LineSegments,
 	LineBasicMaterial
 } from "three";
-
-import { edges, layout } from "sparse-octree";
 
 /**
  * An octree helper.
@@ -26,6 +26,8 @@ export class OctreeHelper extends Group {
 
 		/**
 		 * The name of this object.
+		 *
+		 * @type {String}
 		 */
 
 		this.name = "OctreeHelper";
@@ -33,7 +35,7 @@ export class OctreeHelper extends Group {
 		/**
 		 * The octree.
 		 *
-		 * @type {Octree}
+		 * @type {Tree}
 		 */
 
 		this.octree = octree;
