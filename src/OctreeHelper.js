@@ -6,6 +6,8 @@ import {
 	LineBasicMaterial
 } from "three";
 
+import { edges, layout } from "sparse-octree";
+
 /**
  * An octree helper.
  */
@@ -15,7 +17,7 @@ export class OctreeHelper extends Group {
 	/**
 	 * Constructs a new octree helper.
 	 *
-	 * @param {Octree} [octree=null] - An octree.
+	 * @param {Tree} [octree=null] - An octree.
 	 */
 
 	constructor(octree = null) {
@@ -98,7 +100,7 @@ export class OctreeHelper extends Group {
 				// Create the vertices.
 				for(j = 0; j < 8; ++j, ++c) {
 
-					corner = corners[j];
+					corner = layout[j];
 
 					positions[c * 3] = (corner[0] === 0) ? min.x : max.x;
 					positions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;
@@ -142,7 +144,7 @@ export class OctreeHelper extends Group {
 
 		while(level <= depth) {
 
-			result = this.octree.findOctantsByLevel(level);
+			result = this.octree.findNodesByLevel(level);
 
 			this.createLineSegments(
 				result[Symbol.iterator](),
@@ -195,58 +197,3 @@ export class OctreeHelper extends Group {
 	}
 
 }
-
-/**
- * A binary pattern that describes the corners of an octant:
- *
- * ```text
- *    3____7
- *  2/___6/|
- *  | 1__|_5
- *  0/___4/
- * ```
- *
- * @type {Uint8Array[]}
- */
-
-const corners = [
-
-	new Uint8Array([0, 0, 0]),
-	new Uint8Array([0, 0, 1]),
-	new Uint8Array([0, 1, 0]),
-	new Uint8Array([0, 1, 1]),
-
-	new Uint8Array([1, 0, 0]),
-	new Uint8Array([1, 0, 1]),
-	new Uint8Array([1, 1, 0]),
-	new Uint8Array([1, 1, 1])
-
-];
-
-/**
- * Describes all possible octant corner connections.
- *
- * @type {Uint8Array[]}
- */
-
-const edges = [
-
-	// X-Axis.
-	new Uint8Array([0, 4]),
-	new Uint8Array([1, 5]),
-	new Uint8Array([2, 6]),
-	new Uint8Array([3, 7]),
-
-	// Y-Axis.
-	new Uint8Array([0, 2]),
-	new Uint8Array([1, 3]),
-	new Uint8Array([4, 6]),
-	new Uint8Array([5, 7]),
-
-	// Z-Axis.
-	new Uint8Array([0, 1]),
-	new Uint8Array([2, 3]),
-	new Uint8Array([4, 5]),
-	new Uint8Array([6, 7])
-
-];
