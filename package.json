@@ -4,7 +4,7 @@
 	"description": "An octree visualization tool for three.js.",
 	"homepage": "https://github.com/vanruesc/octree-helper",
 	"main": "build/octree-helper.js",
-	"module": "src/index.js",
+	"module": "build/octree-helper.esm.js",
 	"sideEffects": false,
 	"license": "Zlib",
 
@@ -33,10 +33,7 @@
 		"url": "https://github.com/vanruesc/octree-helper/issues"
 	},
 
-	"files": [
-		"src",
-		"build"
-	],
+	"files": ["build"],
 
 	"scripts": {
 		"ava": "ava",
@@ -46,7 +43,8 @@
 		"lint:test": "eslint test",
 		"build": "rollup -c",
 		"build:production": "cross-env NODE_ENV=production rollup -c",
-		"doc": "esdoc",
+		"watch": "rollup -c --watch",
+		"doc": "rimraf public/docs && esdoc",
 		"pretest": "npm run lint && npm run build:production",
 		"test": "npm run ava",
 		"prepack": "npm test"
@@ -80,6 +78,7 @@
 		"eslint-config-delta": "1.x.x",
 		"iterator-result": "0.x.x",
 		"math-ds": "1.x.x",
+		"rimraf": "3.x.x",
 		"rollup": "1.x.x",
 		"rollup-plugin-babel": "4.x.x",
 		"rollup-plugin-babel-minify": "9.x.x",
