@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
-    "octree-helper/src/octreehelper.js~octreehelper",
+    "octree-helper~octreehelper",
     "class/src/OctreeHelper.js~OctreeHelper.html",
-    "<span>OctreeHelper</span> <span class=\"search-result-import-path\">octree-helper/src/OctreeHelper.js</span>",
+    "<span>OctreeHelper</span> <span class=\"search-result-import-path\">octree-helper</span>",
     "class"
   ],
   [
@@ -297,12 +297,6 @@ window.esdocSearchIndex = [
     "src/octreehelper.js~octreehelper#constructor",
     "class/src/OctreeHelper.js~OctreeHelper.html#instance-constructor-constructor",
     "src/OctreeHelper.js~OctreeHelper#constructor",
-    "method"
-  ],
-  [
-    "src/octreehelper.js~octreehelper#createlinesegments",
-    "class/src/OctreeHelper.js~OctreeHelper.html#instance-method-createLineSegments",
-    "src/OctreeHelper.js~OctreeHelper#createLineSegments",
     "method"
   ],
   [

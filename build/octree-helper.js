@@ -1,13 +1,13 @@
 /**
- * octree-helper v0.24.0 build Tue Oct 01 2019
+ * octree-helper v1.0.0 build Wed Oct 23 2019
  * https://github.com/vanruesc/octree-helper
  * Copyright 2019 Raoul van Rüschen, Zlib
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('three')) :
-  typeof define === 'function' && define.amd ? define(['three'], factory) :
-  (global = global || self, global.OCTREEHELPER = factory(global.THREE));
-}(this, function (three) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('three')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'three'], factory) :
+  (global = global || self, factory(global.OCTREEHELPER = {}, global.THREE));
+}(this, (function (exports, three) { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -78,6 +78,9 @@
     return _assertThisInitialized(self);
   }
 
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+  var layout = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
+
   var OctreeHelper = function (_Group) {
     _inherits(OctreeHelper, _Group);
 
@@ -133,7 +136,7 @@
             }
 
             for (j = 0; j < 8; ++j, ++c) {
-              corner = corners[j];
+              corner = layout[j];
               positions[c * 3] = corner[0] === 0 ? min.x : max.x;
               positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
               positions[c * 3 + 2] = corner[2] === 0 ? min.z : max.z;
@@ -161,7 +164,7 @@
         this.dispose();
 
         while (level <= depth) {
-          result = this.octree.findOctantsByLevel(level);
+          result = this.octree.findNodesByLevel(level);
           this.createLineSegments(result[Symbol.iterator](), typeof result.size === "number" ? result.size : result.length);
           ++level;
         }
@@ -195,9 +198,9 @@
 
     return OctreeHelper;
   }(three.Group);
-  var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
-  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
-  return OctreeHelper;
+  exports.OctreeHelper = OctreeHelper;
 
-}));
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

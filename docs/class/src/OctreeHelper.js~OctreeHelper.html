@@ -35,13 +35,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {OctreeHelper} from &apos;<span><a href="file/src/OctreeHelper.js.html#lineNumber13">octree-helper/src/OctreeHelper.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {OctreeHelper} from &apos;<span><a href="file/src/OctreeHelper.js.html#lineNumber15">octree-helper</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/OctreeHelper.js.html#lineNumber13">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/OctreeHelper.js.html#lineNumber15">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -94,7 +94,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(octree: <span>Octree</span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(octree: <span>Tree</span>)</span>
         </p>
       </div>
       <div>
@@ -130,13 +130,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-member-name">name</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-member-octree">octree</a></span></span><span class="code" data-ice="signature">: <span>Tree</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The name of this object.</p>
+        <div data-ice="description"><p>The octree.</p>
 </div>
       </div>
     </td>
@@ -145,9 +145,15 @@
       
     </td>
   </tr>
-<tr data-ice="target">
+</tbody>
+</table>
+<table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Protected Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
     <td>
-      <span class="access" data-ice="access">public</span>
+      <span class="access" data-ice="access">protected</span>
       
       
       
@@ -159,13 +165,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-member-octree">octree</a></span></span><span class="code" data-ice="signature">: <span>Octree</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-member-name">name</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The octree.</p>
+        <div data-ice="description"><p>The name of this object.</p>
 </div>
       </div>
     </td>
@@ -241,41 +247,6 @@
   </tr>
 </tbody>
 </table>
-<table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Private Methods</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/OctreeHelper.js~OctreeHelper.html#instance-method-createLineSegments">createLineSegments</a></span></span><span class="code" data-ice="signature">(octants: <span>Iterator</span>, octantCount: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Creates octant geometry.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
 </div>
 
 
@@ -292,11 +263,11 @@
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(octree: <span>Octree</span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(octree: <span>Tree</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber21">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
@@ -318,7 +289,7 @@
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">octree</td>
-      <td data-ice="type" class="code"><span>Octree</span></td>
+      <td data-ice="type" class="code"><span>Tree</span></td>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: null</li></ul></td>
       <td data-ice="description"><p>An octree.</p>
@@ -350,25 +321,25 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-name">
+  <h3 data-ice="anchor" id="instance-member-octree">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">name</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="code" data-ice="name">octree</span><span class="code" data-ice="signature">: <span>Tree</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber42">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The name of this object.</p>
+  <div data-ice="description"><p>The octree.</p>
 </div>
 
   
@@ -393,26 +364,28 @@
   
   
 </div>
+<h2 data-ice="title">Protected Members</h2>
+
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-octree">
-    <span class="access" data-ice="access">public</span>
+  <h3 data-ice="anchor" id="instance-member-name">
+    <span class="access" data-ice="access">protected</span>
     
     
     
     
     
-    <span class="code" data-ice="name">octree</span><span class="code" data-ice="signature">: <span>Octree</span></span>
+    <span class="code" data-ice="name">name</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The octree.</p>
+  <div data-ice="description"><p>The name of this object.</p>
 </div>
 
   
@@ -452,7 +425,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber162">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber167">source</a></span></span>
     </span>
   </h3>
 
@@ -496,7 +469,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber133">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber138">source</a></span></span>
     </span>
   </h3>
 
@@ -509,76 +482,6 @@
   
 
   <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<h2 data-ice="title">Private Methods</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-createLineSegments">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">createLineSegments</span><span class="code" data-ice="signature">(octants: <span>Iterator</span>, octantCount: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/OctreeHelper.js.html#lineNumber51">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Creates octant geometry.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">octants</td>
-      <td data-ice="type" class="code"><span>Iterator</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>An octant iterator.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">octantCount</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The size of the given sequence.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
 </div>
 
   

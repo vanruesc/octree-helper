@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/index.js",
-    "content": "/**\r\n * Exposure of the library components.\r\n *\r\n * @module octree-helper\r\n */\r\n\r\nexport { OctreeHelper as default } from \"./OctreeHelper.js\";\r\n",
+    "content": "export { OctreeHelper } from \"./OctreeHelper.js\";\r\n",
     "static": true,
     "longname": "D:/Sourcecode/JavaScript/octree-helper/src/index.js",
     "access": "public",
@@ -578,7 +578,7 @@
     "__docId__": 49,
     "kind": "file",
     "name": "src/OctreeHelper.js",
-    "content": "import {\r\n\tBufferAttribute,\r\n\tBufferGeometry,\r\n\tGroup,\r\n\tLineSegments,\r\n\tLineBasicMaterial\r\n} from \"three\";\r\n\r\n/**\r\n * An octree helper.\r\n */\r\n\r\nexport class OctreeHelper extends Group {\r\n\r\n\t/**\r\n\t * Constructs a new octree helper.\r\n\t *\r\n\t * @param {Octree} [octree=null] - An octree.\r\n\t */\r\n\r\n\tconstructor(octree = null) {\r\n\r\n\t\tsuper();\r\n\r\n\t\t/**\r\n\t\t * The name of this object.\r\n\t\t */\r\n\r\n\t\tthis.name = \"OctreeHelper\";\r\n\r\n\t\t/**\r\n\t\t * The octree.\r\n\t\t *\r\n\t\t * @type {Octree}\r\n\t\t */\r\n\r\n\t\tthis.octree = octree;\r\n\r\n\t\tthis.update();\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Creates octant geometry.\r\n\t *\r\n\t * @private\r\n\t * @param {Iterator} octants - An octant iterator.\r\n\t * @param {Number} octantCount - The size of the given sequence.\r\n\t */\r\n\r\n\tcreateLineSegments(octants, octantCount) {\r\n\r\n\t\tconst maxOctants = (Math.pow(2, 16) / 8) - 1;\r\n\t\tconst group = new Group();\r\n\r\n\t\tconst material = new LineBasicMaterial({\r\n\t\t\tcolor: 0xffffff * Math.random()\r\n\t\t});\r\n\r\n\t\tlet result;\r\n\t\tlet vertexCount;\r\n\t\tlet length;\r\n\r\n\t\tlet indices, positions;\r\n\t\tlet octant, min, max;\r\n\t\tlet geometry;\r\n\r\n\t\tlet i, j, c, d, n;\r\n\t\tlet corner, edge;\r\n\r\n\t\t// Create geometry in multiple runs to limit the amount of vertices.\r\n\t\tfor(i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {\r\n\r\n\t\t\tlength += (octantCount < maxOctants) ? octantCount : maxOctants;\r\n\t\t\toctantCount -= maxOctants;\r\n\r\n\t\t\tvertexCount = length * 8;\r\n\t\t\tindices = new Uint16Array(vertexCount * 3);\r\n\t\t\tpositions = new Float32Array(vertexCount * 3);\r\n\r\n\t\t\t// Continue where the previous run left off.\r\n\t\t\tfor(c = 0, d = 0, result = octants.next(); !result.done && i < length;) {\r\n\r\n\t\t\t\toctant = result.value;\r\n\t\t\t\tmin = octant.min;\r\n\t\t\t\tmax = octant.max;\r\n\r\n\t\t\t\t// Create line connections based on the current vertex count.\r\n\t\t\t\tfor(j = 0; j < 12; ++j) {\r\n\r\n\t\t\t\t\tedge = edges[j];\r\n\r\n\t\t\t\t\tindices[d++] = c + edge[0];\r\n\t\t\t\t\tindices[d++] = c + edge[1];\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t\t// Create the vertices.\r\n\t\t\t\tfor(j = 0; j < 8; ++j, ++c) {\r\n\r\n\t\t\t\t\tcorner = corners[j];\r\n\r\n\t\t\t\t\tpositions[c * 3] = (corner[0] === 0) ? min.x : max.x;\r\n\t\t\t\t\tpositions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;\r\n\t\t\t\t\tpositions[c * 3 + 2] = (corner[2] === 0) ? min.z : max.z;\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t\tif(++i < length) {\r\n\r\n\t\t\t\t\tresult = octants.next();\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t\tgeometry = new BufferGeometry();\r\n\t\t\tgeometry.setIndex(new BufferAttribute(indices, 1));\r\n\t\t\tgeometry.addAttribute(\"position\", new BufferAttribute(positions, 3));\r\n\r\n\t\t\tgroup.add(new LineSegments(geometry, material));\r\n\r\n\t\t}\r\n\r\n\t\tthis.add(group);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Updates the helper geometry.\r\n\t */\r\n\r\n\tupdate() {\r\n\r\n\t\tconst depth = (this.octree !== null) ? this.octree.getDepth() : -1;\r\n\r\n\t\tlet level = 0;\r\n\t\tlet result;\r\n\r\n\t\t// Remove existing geometry.\r\n\t\tthis.dispose();\r\n\r\n\t\twhile(level <= depth) {\r\n\r\n\t\t\tresult = this.octree.findOctantsByLevel(level);\r\n\r\n\t\t\tthis.createLineSegments(\r\n\t\t\t\tresult[Symbol.iterator](),\r\n\t\t\t\t(typeof result.size === \"number\") ? result.size : result.length\r\n\t\t\t);\r\n\r\n\t\t\t++level;\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Destroys this helper.\r\n\t */\r\n\r\n\tdispose() {\r\n\r\n\t\tconst groups = this.children;\r\n\r\n\t\tlet group, children;\r\n\t\tlet i, j, il, jl;\r\n\r\n\t\tfor(i = 0, il = groups.length; i < il; ++i) {\r\n\r\n\t\t\tgroup = groups[i];\r\n\t\t\tchildren = group.children;\r\n\r\n\t\t\tfor(j = 0, jl = children.length; j < jl; ++j) {\r\n\r\n\t\t\t\tchildren[j].geometry.dispose();\r\n\t\t\t\tchildren[j].material.dispose();\r\n\r\n\t\t\t}\r\n\r\n\t\t\twhile(children.length > 0) {\r\n\r\n\t\t\t\tgroup.remove(children[0]);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\twhile(groups.length > 0) {\r\n\r\n\t\t\tthis.remove(groups[0]);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n\r\n/**\r\n * A binary pattern that describes the corners of an octant:\r\n *\r\n * ```text\r\n *    3____7\r\n *  2/___6/|\r\n *  | 1__|_5\r\n *  0/___4/\r\n * ```\r\n *\r\n * @type {Uint8Array[]}\r\n */\r\n\r\nconst corners = [\r\n\r\n\tnew Uint8Array([0, 0, 0]),\r\n\tnew Uint8Array([0, 0, 1]),\r\n\tnew Uint8Array([0, 1, 0]),\r\n\tnew Uint8Array([0, 1, 1]),\r\n\r\n\tnew Uint8Array([1, 0, 0]),\r\n\tnew Uint8Array([1, 0, 1]),\r\n\tnew Uint8Array([1, 1, 0]),\r\n\tnew Uint8Array([1, 1, 1])\r\n\r\n];\r\n\r\n/**\r\n * Describes all possible octant corner connections.\r\n *\r\n * @type {Uint8Array[]}\r\n */\r\n\r\nconst edges = [\r\n\r\n\t// X-Axis.\r\n\tnew Uint8Array([0, 4]),\r\n\tnew Uint8Array([1, 5]),\r\n\tnew Uint8Array([2, 6]),\r\n\tnew Uint8Array([3, 7]),\r\n\r\n\t// Y-Axis.\r\n\tnew Uint8Array([0, 2]),\r\n\tnew Uint8Array([1, 3]),\r\n\tnew Uint8Array([4, 6]),\r\n\tnew Uint8Array([5, 7]),\r\n\r\n\t// Z-Axis.\r\n\tnew Uint8Array([0, 1]),\r\n\tnew Uint8Array([2, 3]),\r\n\tnew Uint8Array([4, 5]),\r\n\tnew Uint8Array([6, 7])\r\n\r\n];\r\n",
+    "content": "import { edges, layout } from \"sparse-octree\";\r\n\r\nimport {\r\n\tBufferAttribute,\r\n\tBufferGeometry,\r\n\tGroup,\r\n\tLineSegments,\r\n\tLineBasicMaterial\r\n} from \"three\";\r\n\r\n/**\r\n * An octree helper.\r\n */\r\n\r\nexport class OctreeHelper extends Group {\r\n\r\n\t/**\r\n\t * Constructs a new octree helper.\r\n\t *\r\n\t * @param {Tree} [octree=null] - An octree.\r\n\t */\r\n\r\n\tconstructor(octree = null) {\r\n\r\n\t\tsuper();\r\n\r\n\t\t/**\r\n\t\t * The name of this object.\r\n\t\t *\r\n\t\t * @type {String}\r\n\t\t * @protected\r\n\t\t */\r\n\r\n\t\tthis.name = \"OctreeHelper\";\r\n\r\n\t\t/**\r\n\t\t * The octree.\r\n\t\t *\r\n\t\t * @type {Tree}\r\n\t\t */\r\n\r\n\t\tthis.octree = octree;\r\n\r\n\t\tthis.update();\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Creates octant geometry.\r\n\t *\r\n\t * @private\r\n\t * @param {Iterator} octants - An octant iterator.\r\n\t * @param {Number} octantCount - The size of the given sequence.\r\n\t */\r\n\r\n\tcreateLineSegments(octants, octantCount) {\r\n\r\n\t\tconst maxOctants = (Math.pow(2, 16) / 8) - 1;\r\n\t\tconst group = new Group();\r\n\r\n\t\tconst material = new LineBasicMaterial({\r\n\t\t\tcolor: 0xffffff * Math.random()\r\n\t\t});\r\n\r\n\t\tlet result;\r\n\t\tlet vertexCount;\r\n\t\tlet length;\r\n\r\n\t\tlet indices, positions;\r\n\t\tlet octant, min, max;\r\n\t\tlet geometry;\r\n\r\n\t\tlet i, j, c, d, n;\r\n\t\tlet corner, edge;\r\n\r\n\t\t// Create geometry in multiple runs to limit the amount of vertices.\r\n\t\tfor(i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {\r\n\r\n\t\t\tlength += (octantCount < maxOctants) ? octantCount : maxOctants;\r\n\t\t\toctantCount -= maxOctants;\r\n\r\n\t\t\tvertexCount = length * 8;\r\n\t\t\tindices = new Uint16Array(vertexCount * 3);\r\n\t\t\tpositions = new Float32Array(vertexCount * 3);\r\n\r\n\t\t\t// Continue where the previous run left off.\r\n\t\t\tfor(c = 0, d = 0, result = octants.next(); !result.done && i < length;) {\r\n\r\n\t\t\t\toctant = result.value;\r\n\t\t\t\tmin = octant.min;\r\n\t\t\t\tmax = octant.max;\r\n\r\n\t\t\t\t// Create line connections based on the current vertex count.\r\n\t\t\t\tfor(j = 0; j < 12; ++j) {\r\n\r\n\t\t\t\t\tedge = edges[j];\r\n\r\n\t\t\t\t\tindices[d++] = c + edge[0];\r\n\t\t\t\t\tindices[d++] = c + edge[1];\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t\t// Create the vertices.\r\n\t\t\t\tfor(j = 0; j < 8; ++j, ++c) {\r\n\r\n\t\t\t\t\tcorner = layout[j];\r\n\r\n\t\t\t\t\tpositions[c * 3] = (corner[0] === 0) ? min.x : max.x;\r\n\t\t\t\t\tpositions[c * 3 + 1] = (corner[1] === 0) ? min.y : max.y;\r\n\t\t\t\t\tpositions[c * 3 + 2] = (corner[2] === 0) ? min.z : max.z;\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t\tif(++i < length) {\r\n\r\n\t\t\t\t\tresult = octants.next();\r\n\r\n\t\t\t\t}\r\n\r\n\t\t\t}\r\n\r\n\t\t\tgeometry = new BufferGeometry();\r\n\t\t\tgeometry.setIndex(new BufferAttribute(indices, 1));\r\n\t\t\tgeometry.addAttribute(\"position\", new BufferAttribute(positions, 3));\r\n\r\n\t\t\tgroup.add(new LineSegments(geometry, material));\r\n\r\n\t\t}\r\n\r\n\t\tthis.add(group);\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Updates the helper geometry.\r\n\t */\r\n\r\n\tupdate() {\r\n\r\n\t\tconst depth = (this.octree !== null) ? this.octree.getDepth() : -1;\r\n\r\n\t\tlet level = 0;\r\n\t\tlet result;\r\n\r\n\t\t// Remove existing geometry.\r\n\t\tthis.dispose();\r\n\r\n\t\twhile(level <= depth) {\r\n\r\n\t\t\tresult = this.octree.findNodesByLevel(level);\r\n\r\n\t\t\tthis.createLineSegments(\r\n\t\t\t\tresult[Symbol.iterator](),\r\n\t\t\t\t(typeof result.size === \"number\") ? result.size : result.length\r\n\t\t\t);\r\n\r\n\t\t\t++level;\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t/**\r\n\t * Destroys this helper.\r\n\t */\r\n\r\n\tdispose() {\r\n\r\n\t\tconst groups = this.children;\r\n\r\n\t\tlet group, children;\r\n\t\tlet i, j, il, jl;\r\n\r\n\t\tfor(i = 0, il = groups.length; i < il; ++i) {\r\n\r\n\t\t\tgroup = groups[i];\r\n\t\t\tchildren = group.children;\r\n\r\n\t\t\tfor(j = 0, jl = children.length; j < jl; ++j) {\r\n\r\n\t\t\t\tchildren[j].geometry.dispose();\r\n\t\t\t\tchildren[j].material.dispose();\r\n\r\n\t\t\t}\r\n\r\n\t\t\twhile(children.length > 0) {\r\n\r\n\t\t\t\tgroup.remove(children[0]);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\twhile(groups.length > 0) {\r\n\r\n\t\t\tthis.remove(groups[0]);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n}\r\n",
     "static": true,
     "longname": "D:/Sourcecode/JavaScript/octree-helper/src/OctreeHelper.js",
     "access": "public",
@@ -594,10 +594,10 @@
     "longname": "src/OctreeHelper.js~OctreeHelper",
     "access": "public",
     "export": true,
-    "importPath": "octree-helper/src/OctreeHelper.js",
+    "importPath": "octree-helper",
     "importStyle": "{OctreeHelper}",
     "description": "An octree helper.",
-    "lineNumber": 13,
+    "lineNumber": 15,
     "interface": false,
     "extends": [
       "three~Group"
@@ -614,12 +614,12 @@
     "longname": "src/OctreeHelper.js~OctreeHelper#constructor",
     "access": "public",
     "description": "Constructs a new octree helper.",
-    "lineNumber": 21,
+    "lineNumber": 23,
     "params": [
       {
         "nullable": null,
         "types": [
-          "Octree"
+          "Tree"
         ],
         "spread": false,
         "optional": true,
@@ -637,13 +637,16 @@
     "memberof": "src/OctreeHelper.js~OctreeHelper",
     "static": false,
     "longname": "src/OctreeHelper.js~OctreeHelper#name",
-    "access": "public",
+    "access": "protected",
     "description": "The name of this object.",
-    "lineNumber": 29,
+    "lineNumber": 34,
     "type": {
+      "nullable": null,
       "types": [
-        "string"
-      ]
+        "String"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -655,11 +658,11 @@
     "longname": "src/OctreeHelper.js~OctreeHelper#octree",
     "access": "public",
     "description": "The octree.",
-    "lineNumber": 37,
+    "lineNumber": 42,
     "type": {
       "nullable": null,
       "types": [
-        "Octree"
+        "Tree"
       ],
       "spread": false,
       "description": null
@@ -676,7 +679,7 @@
     "longname": "src/OctreeHelper.js~OctreeHelper#createLineSegments",
     "access": "private",
     "description": "Creates octant geometry.",
-    "lineNumber": 51,
+    "lineNumber": 56,
     "params": [
       {
         "nullable": null,
@@ -699,6 +702,7 @@
         "description": "The size of the given sequence."
       }
     ],
+    "ignore": true,
     "return": null
   },
   {
@@ -712,7 +716,7 @@
     "longname": "src/OctreeHelper.js~OctreeHelper#update",
     "access": "public",
     "description": "Updates the helper geometry.",
-    "lineNumber": 133,
+    "lineNumber": 138,
     "params": [],
     "return": null
   },
@@ -727,59 +731,13 @@
     "longname": "src/OctreeHelper.js~OctreeHelper#dispose",
     "access": "public",
     "description": "Destroys this helper.",
-    "lineNumber": 162,
+    "lineNumber": 167,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 57,
-    "kind": "variable",
-    "name": "corners",
-    "memberof": "src/OctreeHelper.js",
-    "static": true,
-    "longname": "src/OctreeHelper.js~corners",
-    "access": "public",
-    "export": false,
-    "importPath": "octree-helper/src/OctreeHelper.js",
-    "importStyle": null,
-    "description": "A binary pattern that describes the corners of an octant:\n\n```text\n   3____7\n 2/___6/|\n | 1__|_5\n 0/___4/\n```",
-    "lineNumber": 212,
-    "type": {
-      "nullable": null,
-      "types": [
-        "Uint8Array[]"
-      ],
-      "spread": false,
-      "description": null
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 58,
-    "kind": "variable",
-    "name": "edges",
-    "memberof": "src/OctreeHelper.js",
-    "static": true,
-    "longname": "src/OctreeHelper.js~edges",
-    "access": "public",
-    "export": false,
-    "importPath": "octree-helper/src/OctreeHelper.js",
-    "importStyle": null,
-    "description": "Describes all possible octant corner connections.",
-    "lineNumber": 232,
-    "type": {
-      "nullable": null,
-      "types": [
-        "Uint8Array[]"
-      ],
-      "spread": false,
-      "description": null
-    },
-    "ignore": true
-  },
-  {
     "kind": "index",
-    "content": "# Octree Helper\r\n\r\n[![Build status](https://travis-ci.org/vanruesc/octree-helper.svg?branch=master)](https://travis-ci.org/vanruesc/octree-helper) \r\n[![npm version](https://badgen.net/npm/v/octree-helper?color=green)](https://www.npmjs.com/package/octree-helper)\r\n[![Peer dependencies](https://david-dm.org/vanruesc/octree-helper/peer-status.svg)](https://david-dm.org/vanruesc/octree-helper?type=peer)\r\n\r\nAn octree visualization tool for [three.js](https://threejs.org/).\r\n\r\n*[API Reference](https://vanruesc.github.io/octree-helper/docs)*\r\n\r\n\r\n## Installation\r\n\r\nThis library requires the peer dependency [three](https://github.com/mrdoob/three.js/).\r\n\r\n```sh\r\nnpm install three octree-helper\r\n``` \r\n\r\n\r\n## Requirements\r\n\r\nThis helper can visualize any octree that conforms to the following protocols:\r\n\r\n```javascript\r\ninterface Octree {\r\n\r\n\tgetDepth(): Number;\r\n\tfindOctantsByLevel(level: Number): Iterable;\r\n\r\n}\r\n```\r\n\r\n```javascript\r\ninterface Octant {\r\n\r\n\tmin: { x: Number, y: Number, z: Number };\r\n\tmax: { x: Number, y: Number, z: Number };\r\n\r\n}\r\n```\r\n\r\n\r\n## Usage\r\n\r\nThe following example uses the [sparse-octree](https://github.com/vanruesc/sparse-octree) module.\r\n\r\n```javascript\r\nimport { Scene } from \"three\";\r\nimport { Octree } from \"sparse-octree\";\r\nimport OctreeHelper from \"octree-helper\";\r\n\r\nconst scene = new Scene();\r\nconst octree = new Octree();\r\nconst octreeHelper = new OctreeHelper(octree);\r\n\r\n// Render the helper.\r\nscene.add(octreeHelper);\r\n\r\n// Set a different octree.\r\noctreeHelper.octree = otherOctree;\r\n\r\n// Destroy the helper geometry and rebuild.\r\noctreeHelper.update();\r\n\r\n// Destroy the helper geometry.\r\noctreeHelper.dispose();\r\n```\r\n\r\nA full example can be found [here](https://vanruesc.github.io/sparse-octree/public/demo).\r\n\r\n\r\n## Contributing\r\n\r\nMaintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.\r\n",
+    "content": "# Octree Helper\r\n\r\n[![Build status](https://travis-ci.org/vanruesc/octree-helper.svg?branch=master)](https://travis-ci.org/vanruesc/octree-helper) \r\n[![npm version](https://badgen.net/npm/v/octree-helper?color=green)](https://www.npmjs.com/package/octree-helper)\r\n[![Peer dependencies](https://david-dm.org/vanruesc/octree-helper/peer-status.svg)](https://david-dm.org/vanruesc/octree-helper?type=peer)\r\n\r\nAn octree visualization tool for [three.js](https://threejs.org/).\r\n\r\n*[Demo](https://vanruesc.github.io/sparse-octree/public/demo)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/octree-helper/docs)*\r\n\r\n\r\n## Installation\r\n\r\nThis library requires the peer dependency [three](https://github.com/mrdoob/three.js/).\r\n\r\n```sh\r\nnpm install three octree-helper\r\n``` \r\n\r\n\r\n## Requirements\r\n\r\nThis helper can visualize any octree that conforms to the following protocols:\r\n\r\n- [Tree](https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Tree.js~Tree.html)\r\n- [Node](https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Node.js~Node.html)\r\n\r\n\r\n## Usage\r\n\r\nThe following example uses the [sparse-octree](https://github.com/vanruesc/sparse-octree) module.\r\n\r\n```javascript\r\nimport { Scene } from \"three\";\r\nimport { Octree } from \"sparse-octree\";\r\nimport { OctreeHelper } from \"octree-helper\";\r\n\r\nconst scene = new Scene();\r\nconst octree = new Octree();\r\nconst octreeHelper = new OctreeHelper(octree);\r\n\r\n// Render the helper.\r\nscene.add(octreeHelper);\r\n\r\n// Set a different octree.\r\noctreeHelper.octree = otherOctree;\r\n\r\n// Destroy the helper geometry and rebuild.\r\noctreeHelper.update();\r\n\r\n// Destroy the helper geometry.\r\noctreeHelper.dispose();\r\n```\r\n\r\n\r\n## Contributing\r\n\r\nMaintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.\r\n",
     "longname": "D:\\Sourcecode\\JavaScript\\octree-helper\\README.md",
     "name": "./README.md",
     "static": true,
@@ -787,7 +745,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n\t\"name\": \"octree-helper\",\r\n\t\"version\": \"0.24.0\",\r\n\t\"description\": \"An octree visualization tool for three.js.\",\r\n\t\"homepage\": \"https://github.com/vanruesc/octree-helper\",\r\n\t\"main\": \"build/octree-helper.js\",\r\n\t\"module\": \"src/index.js\",\r\n\t\"sideEffects\": false,\r\n\t\"license\": \"Zlib\",\r\n\r\n\t\"keywords\": [\r\n\t\t\"octree\",\r\n\t\t\"helper\",\r\n\t\t\"three.js\",\r\n\t\t\"3d\",\r\n\t\t\"geometry\",\r\n\t\t\"mesh\",\r\n\t\t\"visualize\"\r\n\t],\r\n\r\n\t\"author\": {\r\n\t\t\"name\": \"Raoul van Rüschen\",\r\n\t\t\"email\": \"vanruesc@outlook.de\"\r\n\t},\r\n\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"https://github.com/vanruesc/octree-helper.git\"\r\n\t},\r\n\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/vanruesc/octree-helper/issues\"\r\n\t},\r\n\r\n\t\"files\": [\r\n\t\t\"src\",\r\n\t\t\"build\"\r\n\t],\r\n\r\n\t\"scripts\": {\r\n\t\t\"ava\": \"ava\",\r\n\t\t\"lint\": \"npm run lint:lib && npm run lint:test\",\r\n\t\t\"lint:config\": \"eslint *.js\",\r\n\t\t\"lint:lib\": \"eslint src\",\r\n\t\t\"lint:test\": \"eslint test\",\r\n\t\t\"build\": \"rollup -c\",\r\n\t\t\"build:production\": \"cross-env NODE_ENV=production rollup -c\",\r\n\t\t\"doc\": \"esdoc\",\r\n\t\t\"pretest\": \"npm run lint && npm run build:production\",\r\n\t\t\"test\": \"npm run ava\",\r\n\t\t\"prepack\": \"npm test\"\r\n\t},\r\n\r\n\t\"ava\": {\r\n\t\t\"failFast\": true,\r\n\t\t\"files\": [\"test/**/*.js\"]\r\n\t},\r\n\r\n\t\"eslintConfig\": {\r\n\t\t\"extends\": \"delta\"\r\n\t},\r\n\r\n\t\"peerDependencies\": {\r\n\t\t\"three\": \">= 0.89.0 < 0.110.0\"\r\n\t},\r\n\r\n\t\"devDependencies\": {\r\n\t\t\"@babel/core\": \"7.x.x\",\r\n\t\t\"@babel/preset-env\": \"7.x.x\",\r\n\t\t\"ava\": \"2.x.x\",\r\n\t\t\"cross-env\": \"6.x.x\",\r\n\t\t\"esdoc\": \"1.x.x\",\r\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\r\n\t\t\"eslint\": \"6.x.x\",\r\n\t\t\"eslint-config-delta\": \"1.x.x\",\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"1.x.x\",\r\n\t\t\"rollup\": \"1.x.x\",\r\n\t\t\"rollup-plugin-babel\": \"4.x.x\",\r\n\t\t\"rollup-plugin-babel-minify\": \"9.x.x\",\r\n\t\t\"rollup-plugin-node-resolve\": \"5.x.x\",\r\n\t\t\"sparse-octree\": \"5.x.x\",\r\n\t\t\"three\": \"0.109.x\"\r\n\t}\r\n}\r\n",
+    "content": "{\r\n\t\"name\": \"octree-helper\",\r\n\t\"version\": \"1.0.0\",\r\n\t\"description\": \"An octree visualization tool for three.js.\",\r\n\t\"homepage\": \"https://github.com/vanruesc/octree-helper\",\r\n\t\"main\": \"build/octree-helper.js\",\r\n\t\"module\": \"build/octree-helper.esm.js\",\r\n\t\"sideEffects\": false,\r\n\t\"license\": \"Zlib\",\r\n\r\n\t\"keywords\": [\r\n\t\t\"octree\",\r\n\t\t\"helper\",\r\n\t\t\"three.js\",\r\n\t\t\"3d\",\r\n\t\t\"geometry\",\r\n\t\t\"mesh\",\r\n\t\t\"render\",\r\n\t\t\"visualize\"\r\n\t],\r\n\r\n\t\"author\": {\r\n\t\t\"name\": \"Raoul van Rüschen\",\r\n\t\t\"email\": \"vanruesc@outlook.de\"\r\n\t},\r\n\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"https://github.com/vanruesc/octree-helper.git\"\r\n\t},\r\n\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/vanruesc/octree-helper/issues\"\r\n\t},\r\n\r\n\t\"files\": [\"build\"],\r\n\r\n\t\"scripts\": {\r\n\t\t\"ava\": \"ava\",\r\n\t\t\"lint\": \"npm run lint:lib && npm run lint:test\",\r\n\t\t\"lint:config\": \"eslint *.js\",\r\n\t\t\"lint:lib\": \"eslint src\",\r\n\t\t\"lint:test\": \"eslint test\",\r\n\t\t\"build\": \"rollup -c\",\r\n\t\t\"build:production\": \"cross-env NODE_ENV=production rollup -c\",\r\n\t\t\"watch\": \"rollup -c --watch\",\r\n\t\t\"doc\": \"rimraf docs && esdoc\",\r\n\t\t\"pretest\": \"npm run lint && npm run build:production\",\r\n\t\t\"test\": \"npm run ava\",\r\n\t\t\"prepack\": \"npm test\"\r\n\t},\r\n\r\n\t\"ava\": {\r\n\t\t\"failFast\": true,\r\n\t\t\"files\": [\"test/**/*.js\"]\r\n\t},\r\n\r\n\t\"eslintConfig\": {\r\n\t\t\"extends\": \"delta\"\r\n\t},\r\n\r\n\t\"dependencies\": {\r\n\t\t\"sparse-octree\": \"6.x.x\"\r\n\t},\r\n\r\n\t\"peerDependencies\": {\r\n\t\t\"three\": \">= 0.89.0 < 0.110.0\"\r\n\t},\r\n\r\n\t\"devDependencies\": {\r\n\t\t\"@babel/core\": \"7.x.x\",\r\n\t\t\"@babel/preset-env\": \"7.x.x\",\r\n\t\t\"ava\": \"2.x.x\",\r\n\t\t\"cross-env\": \"6.x.x\",\r\n\t\t\"esdoc\": \"1.x.x\",\r\n\t\t\"esdoc-importpath-plugin\": \"1.x.x\",\r\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\r\n\t\t\"eslint\": \"6.x.x\",\r\n\t\t\"eslint-config-delta\": \"1.x.x\",\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"1.x.x\",\r\n\t\t\"rimraf\": \"3.x.x\",\r\n\t\t\"rollup\": \"1.x.x\",\r\n\t\t\"rollup-plugin-babel\": \"4.x.x\",\r\n\t\t\"rollup-plugin-babel-minify\": \"9.x.x\",\r\n\t\t\"rollup-plugin-node-resolve\": \"5.x.x\",\r\n\t\t\"three\": \"0.109.x\"\r\n\t}\r\n}\r\n",
     "longname": "D:\\Sourcecode\\JavaScript\\octree-helper\\package.json",
     "name": "package.json",
     "static": true,

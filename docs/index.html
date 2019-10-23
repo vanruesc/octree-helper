@@ -38,29 +38,19 @@
 <a href="https://www.npmjs.com/package/octree-helper"><img src="https://badgen.net/npm/v/octree-helper?color=green" alt="npm version"></a>
 <a href="https://david-dm.org/vanruesc/octree-helper?type=peer"><img src="https://david-dm.org/vanruesc/octree-helper/peer-status.svg" alt="Peer dependencies"></a></p>
 <p>An octree visualization tool for <a href="https://threejs.org/">three.js</a>.</p>
-<p><em><a href="https://vanruesc.github.io/octree-helper/docs">API Reference</a></em></p>
+<p><em><a href="https://vanruesc.github.io/sparse-octree/public/demo">Demo</a>&#x2002;&#xB7;&#x2002;<a href="https://vanruesc.github.io/octree-helper/docs">Documentation</a></em></p>
 <h2 id="installation">Installation</h2><p>This library requires the peer dependency <a href="https://github.com/mrdoob/three.js/">three</a>.</p>
 <pre><code class="lang-sh"><code class="source-code prettyprint">npm install three octree-helper</code>
 </code></pre>
 <h2 id="requirements">Requirements</h2><p>This helper can visualize any octree that conforms to the following protocols:</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">interface Octree {
-
-    getDepth(): Number;
-    findOctantsByLevel(level: Number): Iterable;
-
-}</code>
-</code></pre>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">interface Octant {
-
-    min: { x: Number, y: Number, z: Number };
-    max: { x: Number, y: Number, z: Number };
-
-}</code>
-</code></pre>
+<ul>
+<li><a href="https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Tree.js~Tree.html">Tree</a></li>
+<li><a href="https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Node.js~Node.html">Node</a></li>
+</ul>
 <h2 id="usage">Usage</h2><p>The following example uses the <a href="https://github.com/vanruesc/sparse-octree">sparse-octree</a> module.</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">import { Scene } from &quot;three&quot;;
 import { Octree } from &quot;sparse-octree&quot;;
-import OctreeHelper from &quot;octree-helper&quot;;
+import { OctreeHelper } from &quot;octree-helper&quot;;
 
 const scene = new Scene();
 const octree = new Octree();
@@ -78,7 +68,6 @@ octreeHelper.update();
 // Destroy the helper geometry.
 octreeHelper.dispose();</code>
 </code></pre>
-<p>A full example can be found <a href="https://vanruesc.github.io/sparse-octree/public/demo">here</a>.</p>
 <h2 id="contributing">Contributing</h2><p>Maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.</p>
 </div>
 </div>

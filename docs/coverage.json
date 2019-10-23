@@ -1,11 +1,11 @@
 {
   "coverage": "100%",
-  "expectCount": 9,
-  "actualCount": 9,
+  "expectCount": 7,
+  "actualCount": 7,
   "files": {
     "src/OctreeHelper.js": {
-      "expectCount": 9,
-      "actualCount": 9,
+      "expectCount": 7,
+      "actualCount": 7,
       "undocumentLines": []
     }
   }
