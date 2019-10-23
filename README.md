@@ -6,7 +6,7 @@
 
 An octree visualization tool for [three.js](https://threejs.org/).
 
-*[API Reference](https://vanruesc.github.io/octree-helper/docs)*
+*[Demo](https://vanruesc.github.io/sparse-octree/public/demo)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/octree-helper/docs)*
 
 
 ## Installation
@@ -22,23 +22,8 @@ npm install three octree-helper
 
 This helper can visualize any octree that conforms to the following protocols:
 
-```javascript
-interface Octree {
-
-	getDepth(): Number;
-	findOctantsByLevel(level: Number): Iterable;
-
-}
-```
-
-```javascript
-interface Octant {
-
-	min: { x: Number, y: Number, z: Number };
-	max: { x: Number, y: Number, z: Number };
-
-}
-```
+- [Tree](https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Tree.js~Tree.html)
+- [Node](https://vanruesc.github.io/sparse-octree/public/docs/class/src/core/Node.js~Node.html)
 
 
 ## Usage
@@ -48,7 +33,7 @@ The following example uses the [sparse-octree](https://github.com/vanruesc/spars
 ```javascript
 import { Scene } from "three";
 import { Octree } from "sparse-octree";
-import OctreeHelper from "octree-helper";
+import { OctreeHelper } from "octree-helper";
 
 const scene = new Scene();
 const octree = new Octree();
@@ -66,8 +51,6 @@ octreeHelper.update();
 // Destroy the helper geometry.
 octreeHelper.dispose();
 ```
-
-A full example can be found [here](https://vanruesc.github.io/sparse-octree/public/demo).
 
 
 ## Contributing
