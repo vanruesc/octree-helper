@@ -15,6 +15,7 @@
 		"3d",
 		"geometry",
 		"mesh",
+		"render",
 		"visualize"
 	],
 
