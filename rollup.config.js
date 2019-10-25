@@ -23,29 +23,29 @@ const lib = {
 		output: [{
 			file: pkg.module,
 			format: "esm",
-			globals: globals,
-			banner: banner
+			globals,
+			banner
 		}, {
 			file: pkg.main,
 			format: "esm",
-			globals: globals
+			globals
 		}].concat(production ? [{
 			file: pkg.main.replace(".js", ".min.js"),
 			format: "esm",
-			globals: globals
+			globals
 		}] : [])
 	},
 
 	main: {
-		input: pkg.main,
+		input: production ? pkg.main : "src/index.js",
 		external: Object.keys(globals),
 		plugins: production ? [babel()] : [],
 		output: {
 			file: pkg.main,
 			format: "umd",
 			name: pkg.name.replace(/-/g, "").toUpperCase(),
-			globals: globals,
-			banner: banner
+			globals,
+			banner
 		}
 	},
 
@@ -60,11 +60,11 @@ const lib = {
 			file: pkg.main.replace(".js", ".min.js"),
 			format: "umd",
 			name: pkg.name.replace(/-/g, "").toUpperCase(),
-			globals: globals,
-			banner: banner
+			globals,
+			banner
 		}
 	}
 
 };
 
-export default [lib.module, lib.main].concat(production ? [lib.min] : []);
+export default (production ? [lib.module, lib.main, lib.min] : [lib.main]);
