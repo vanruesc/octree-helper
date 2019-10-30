@@ -1,15 +1,16 @@
 /**
- * octree-helper v1.0.0 build Wed Oct 23 2019
+ * octree-helper v1.0.1 build Wed Oct 30 2019
  * https://github.com/vanruesc/octree-helper
  * Copyright 2019 Raoul van Rüschen, Zlib
  */
 import { Group, LineBasicMaterial, BufferGeometry, BufferAttribute, LineSegments } from 'three';
 
 /**
- * sparse-octree v6.0.0 build Wed Oct 23 2019
+ * sparse-octree v6.0.1 build Sat Oct 26 2019
  * https://github.com/vanruesc/sparse-octree
  * Copyright 2019 Raoul van Rüschen, Zlib
  */
+
 /**
  * Describes all possible octant corner connections.
  *
