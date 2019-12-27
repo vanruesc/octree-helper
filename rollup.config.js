@@ -12,13 +12,16 @@ const banner = `/**
  */`;
 
 const production = (process.env.NODE_ENV === "production");
-const globals = { three: "THREE" };
+const external = Object.keys(pkg.peerDependencies);
+const globals = Object.assign({}, ...external.map((value) => ({
+	[value]: value.replace(/-/g, "").toUpperCase()
+})));
 
 const lib = {
 
 	module: {
 		input: "src/index.js",
-		external: Object.keys(globals),
+		external,
 		plugins: [resolve()],
 		output: [{
 			file: pkg.module,
@@ -38,7 +41,7 @@ const lib = {
 
 	main: {
 		input: production ? pkg.main : "src/index.js",
-		external: Object.keys(globals),
+		external,
 		plugins: production ? [babel()] : [],
 		output: {
 			file: pkg.main,
@@ -51,7 +54,7 @@ const lib = {
 
 	min: {
 		input: pkg.main.replace(".js", ".min.js"),
-		external: Object.keys(globals),
+		external,
 		plugins: [minify({
 			bannerNewLine: true,
 			comments: false
