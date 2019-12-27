@@ -1,6 +1,6 @@
+import resolve from "@rollup/plugin-node-resolve";
 import babel from "rollup-plugin-babel";
 import minify from "rollup-plugin-babel-minify";
-import resolve from "rollup-plugin-node-resolve";
 
 const pkg = require("./package.json");
 const date = (new Date()).toDateString();
