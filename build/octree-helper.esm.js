@@ -1,5 +1,5 @@
 /**
- * octree-helper v1.0.1 build Wed Oct 30 2019
+ * octree-helper v1.1.0 build Fri Dec 27 2019
  * https://github.com/vanruesc/octree-helper
  * Copyright 2019 Raoul van Rüschen, Zlib
  */
@@ -181,7 +181,7 @@ class OctreeHelper extends Group {
 
 			geometry = new BufferGeometry();
 			geometry.setIndex(new BufferAttribute(indices, 1));
-			geometry.addAttribute("position", new BufferAttribute(positions, 3));
+			geometry.setAttribute("position", new BufferAttribute(positions, 3));
 
 			group.add(new LineSegments(geometry, material));
 
