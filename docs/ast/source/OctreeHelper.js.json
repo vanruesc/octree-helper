@@ -6744,9 +6744,9 @@
                                       "line": 124,
                                       "column": 24
                                     },
-                                    "identifierName": "addAttribute"
+                                    "identifierName": "setAttribute"
                                   },
-                                  "name": "addAttribute"
+                                  "name": "setAttribute"
                                 },
                                 "computed": false
                               },
@@ -22840,7 +22840,7 @@
         "postfix": false,
         "binop": null
       },
-      "value": "addAttribute",
+      "value": "setAttribute",
       "start": 2464,
       "end": 2476,
       "loc": {

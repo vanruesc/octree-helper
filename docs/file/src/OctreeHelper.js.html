@@ -158,7 +158,7 @@ export class OctreeHelper extends Group {
 
 			geometry = new BufferGeometry();
 			geometry.setIndex(new BufferAttribute(indices, 1));
-			geometry.addAttribute(&quot;position&quot;, new BufferAttribute(positions, 3));
+			geometry.setAttribute(&quot;position&quot;, new BufferAttribute(positions, 3));
 
 			group.add(new LineSegments(geometry, material));
 

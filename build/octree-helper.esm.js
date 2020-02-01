@@ -1,14 +1,16 @@
 /**
- * octree-helper v1.1.0 build Fri Dec 27 2019
+ * octree-helper v1.1.1 build Sat Feb 01 2020
  * https://github.com/vanruesc/octree-helper
- * Copyright 2019 Raoul van Rüschen, Zlib
+ * Copyright 2020 Raoul van Rüschen
+ * @license Zlib
  */
 import { Group, LineBasicMaterial, BufferGeometry, BufferAttribute, LineSegments } from 'three';
 
 /**
- * sparse-octree v6.0.1 build Sat Oct 26 2019
+ * sparse-octree v6.0.2 build Sat Jan 18 2020
  * https://github.com/vanruesc/sparse-octree
- * Copyright 2019 Raoul van Rüschen, Zlib
+ * Copyright 2020 Raoul van Rüschen
+ * @license Zlib
  */
 
 /**

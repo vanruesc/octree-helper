@@ -1,7 +1,8 @@
 /**
- * octree-helper v1.1.0 build Fri Dec 27 2019
+ * octree-helper v1.1.1 build Sat Feb 01 2020
  * https://github.com/vanruesc/octree-helper
- * Copyright 2019 Raoul van Rüschen, Zlib
+ * Copyright 2020 Raoul van Rüschen
+ * @license Zlib
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('three')) :
@@ -77,6 +78,13 @@
 
     return _assertThisInitialized(self);
   }
+
+  /**
+   * sparse-octree v6.0.2 build Sat Jan 18 2020
+   * https://github.com/vanruesc/sparse-octree
+   * Copyright 2020 Raoul van Rüschen
+   * @license Zlib
+   */
 
   var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
   var layout = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
