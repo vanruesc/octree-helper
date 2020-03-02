@@ -1,5 +1,6 @@
 import resolve from "@rollup/plugin-node-resolve";
 import babel from "rollup-plugin-babel";
+import { eslint } from "rollup-plugin-eslint";
 import { terser } from "rollup-plugin-terser";
 
 const pkg = require("./package.json");
@@ -23,7 +24,7 @@ const lib = {
 	module: {
 		input: "src/index.js",
 		external,
-		plugins: [resolve()],
+		plugins: [resolve(), eslint()],
 		output: [{
 			file: pkg.module,
 			format: "esm",
@@ -43,7 +44,7 @@ const lib = {
 	main: {
 		input: production ? pkg.main : "src/index.js",
 		external,
-		plugins: production ? [babel()] : [resolve()],
+		plugins: production ? [babel()] : [resolve(), eslint()],
 		output: {
 			file: pkg.main,
 			format: "umd",
@@ -68,4 +69,4 @@ const lib = {
 
 };
 
-export default (production ? [lib.module, lib.main, lib.min] : [lib.main]);
+export default production ? [lib.module, lib.main, lib.min] : [lib.main];

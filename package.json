@@ -1,6 +1,6 @@
 {
 	"name": "octree-helper",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "An octree visualization tool for three.js.",
 	"homepage": "https://github.com/vanruesc/octree-helper",
 	"main": "build/octree-helper.js",
@@ -33,16 +33,12 @@
 	],
 	"scripts": {
 		"ava": "ava",
-		"lint": "npm run lint:lib && npm run lint:test",
-		"lint:config": "eslint *.js",
-		"lint:lib": "eslint src",
-		"lint:test": "eslint test",
 		"build": "rollup -c",
-		"build:production": "cross-env NODE_ENV=production rollup -c",
+		"build:production": "cross-env NODE_ENV=production npm run build",
 		"watch": "rollup -c -w",
 		"doc": "rimraf docs && esdoc",
-		"pretest": "npm run lint && npm run build:production",
-		"test": "npm run ava",
+		"pretest": "npm run build:production",
+		"test": "ava",
 		"prepack": "npm test && npm run doc"
 	},
 	"ava": {
@@ -55,13 +51,13 @@
 		]
 	},
 	"eslintConfig": {
-		"extends": "aether"
+		"extends": "delta"
 	},
 	"dependencies": {
 		"sparse-octree": "6.x.x"
 	},
 	"peerDependencies": {
-		"three": ">= 0.110.0 < 0.114.0"
+		"three": ">= 0.110.0 < 0.115.0"
 	},
 	"devDependencies": {
 		"@babel/core": "7.x.x",
@@ -72,15 +68,15 @@
 		"esdoc": "1.x.x",
 		"esdoc-importpath-plugin": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
-		"eslint": "6.x.x",
-		"eslint-config-aether": "1.x.x",
+		"eslint-config-delta": "1.x.x",
 		"esm": "3.x.x",
 		"iterator-result": "1.x.x",
 		"math-ds": "1.x.x",
 		"rimraf": "3.x.x",
 		"rollup": "1.x.x",
 		"rollup-plugin-babel": "4.x.x",
+		"rollup-plugin-eslint": "6.x.x",
 		"rollup-plugin-terser": "5.x.x",
-		"three": "0.113.x"
+		"three": "0.114.x"
 	}
 }
