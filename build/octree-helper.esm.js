@@ -1,5 +1,5 @@
 /**
- * octree-helper v1.1.2 build Mon Mar 02 2020
+ * octree-helper v1.1.3 build Wed Mar 25 2020
  * https://github.com/vanruesc/octree-helper
  * Copyright 2020 Raoul van Rüschen
  * @license Zlib

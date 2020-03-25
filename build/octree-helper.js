@@ -1,5 +1,5 @@
 /**
- * octree-helper v1.1.2 build Mon Mar 02 2020
+ * octree-helper v1.1.3 build Wed Mar 25 2020
  * https://github.com/vanruesc/octree-helper
  * Copyright 2020 Raoul van Rüschen
  * @license Zlib
@@ -63,6 +63,19 @@
     return _setPrototypeOf(o, p);
   }
 
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -79,6 +92,23 @@
     return _assertThisInitialized(self);
   }
 
+  function _createSuper(Derived) {
+    return function () {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (_isNativeReflectConstruct()) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+
   /**
    * sparse-octree v6.0.2 build Sat Jan 18 2020
    * https://github.com/vanruesc/sparse-octree
@@ -92,6 +122,8 @@
   var OctreeHelper = function (_Group) {
     _inherits(OctreeHelper, _Group);
 
+    var _super = _createSuper(OctreeHelper);
+
     function OctreeHelper() {
       var _this;
 
@@ -99,7 +131,7 @@
 
       _classCallCheck(this, OctreeHelper);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(OctreeHelper).call(this));
+      _this = _super.call(this);
       _this.name = "OctreeHelper";
       _this.octree = octree;
 
