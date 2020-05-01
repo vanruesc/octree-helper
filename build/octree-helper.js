@@ -1,5 +1,5 @@
 /**
- * octree-helper v1.1.3 build Wed Mar 25 2020
+ * octree-helper v1.1.4 build Fri May 01 2020
  * https://github.com/vanruesc/octree-helper
  * Copyright 2020 Raoul van Rüschen
  * @license Zlib
@@ -93,11 +93,13 @@
   }
 
   function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
     return function () {
       var Super = _getPrototypeOf(Derived),
           result;
 
-      if (_isNativeReflectConstruct()) {
+      if (hasNativeReflectConstruct) {
         var NewTarget = _getPrototypeOf(this).constructor;
 
         result = Reflect.construct(Super, arguments, NewTarget);
