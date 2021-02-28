@@ -4,6 +4,8 @@
 [![npm version](https://badgen.net/npm/v/octree-helper?color=green)](https://www.npmjs.com/package/octree-helper)
 [![Peer dependencies](https://david-dm.org/vanruesc/octree-helper/peer-status.svg)](https://david-dm.org/vanruesc/octree-helper?type=peer)
 
+:warning: __Deprecation Notice: The octree helper is now included in [sparse-octree](https://github.com/vanruesc/sparse-octree).__ :warning:
+
 An octree visualization tool for [three.js](https://threejs.org/).
 
 *[Demo](https://vanruesc.github.io/sparse-octree/public/demo)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/octree-helper/docs)*
